@@ -1,0 +1,117 @@
+{
+  "rasa_nlu_data": {
+    "common_examples": [
+      {
+        "text": "Book me room number 11",
+        "intent": "CREATE",
+        "entities": [
+          {
+            "start": 20,
+            "end": 22,
+            "value": "11",
+            "entity": "ROOM_NUMBER"
+          }
+        ]
+      },
+      {
+        "text": "Make a reservation for room number 12",
+        "intent": "CREATE",
+        "entities": [
+          {
+            "start": 35,
+            "end": 37,
+            "value": "12",
+            "entity": "ROOM_NUMBER"
+          }
+        ]
+      },
+      {
+        "text": "Set up a reservation for room one",
+        "intent": "CREATE",
+        "entities": [
+          {
+            "start": 30,
+            "end": 33,
+            "value": "one",
+            "entity": "ROOM_NUMBER"
+          }
+        ]
+      },
+      {
+        "text": "Please book me a room with number two",
+        "intent": "CREATE",
+        "entities": [
+          {
+            "start": 34,
+            "end": 37,
+            "value": "two",
+            "entity": "ROOM_NUMBER"
+          }
+        ]
+      },
+      {
+        "text": "I want to reserve room number three",
+        "intent": "CREATE",
+        "entities": [
+          {
+            "start": 30,
+            "end": 35,
+            "value": "three",
+            "entity": "ROOM_NUMBER"
+          }
+        ]
+      },
+      {
+        "text": "Hall number four reserve for tomorrow",
+        "intent": "CREATE",
+        "entities": [
+          {
+            "start": 12,
+            "end": 16,
+            "value": "four",
+            "entity": "ROOM_NUMBER"
+          }
+        ]
+      },
+      {
+        "text": "Cancel my reservation",
+        "intent": "CANCEL",
+        "entities": []
+      },
+      {
+        "text": "Cancel reservation for room number six",
+        "intent": "CANCEL",
+        "entities": [
+          {
+            "start": 35,
+            "end": 38,
+            "value": "six",
+            "entity": "ROOM_NUMBER"
+          }
+        ]
+      },
+      {
+        "text": "Delete my reservation for room number seven",
+        "intent": "CANCEL",
+        "entities": [
+          {
+            "start": 38,
+            "end": 43,
+            "value": "seven",
+            "entity": "ROOM_NUMBER"
+          }
+        ]
+      },
+      {
+        "text": "Cancel ",
+        "intent": "CANCEL",
+        "entities": []
+      },
+      {
+        "text": "Remove my booking",
+        "intent": "CANCEL",
+        "entities": []
+      }
+    ]
+  }
+}
