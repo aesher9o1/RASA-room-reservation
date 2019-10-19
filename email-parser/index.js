@@ -1,7 +1,8 @@
-import { isNullOrUndefined } from 'util';
 import { NLU_SERVER_URL } from '../environment/env.prod'
 import axios from 'axios'
 import { containsKeyword, BOOK, CANCEL, parseNumber } from './utils'
+import chrono from 'chrono-node'
+import { ExtractTimezoneAbbrRefiner } from 'chrono-node/src/refiners/refiner'
 
 const sw = require('stopword')
 const { USER_ACTIONS } = require('./model')
@@ -52,6 +53,20 @@ export default class EmailParser {
     emitRoomNumber(subject) {
         subject = sw.removeStopwords(subject.split(' '))
         return parseNumber(subject)
+    }
+
+    emitDuration(body) {
+        var parsedDate = chrono.parse(body, new Date(), { 'IST': 330 })
+
+        return {
+            text: parsedDate[0].text,
+            startTime: this.roundHours(new Date(parsedDate[0].start.date())),
+            endTime: this.roundHours(new Date(parsedDate[0].end.date()))
+        }
+    }
+
+    roundHours(date) {
+        return date.getMinutes() >= 29 ? date.getHours() + 1 : date.getHours();
     }
 
 }

@@ -3,7 +3,7 @@ const USER_ACTIONS = {
     CANCEL: "CANCEL",
     INVALID: "INVALID"
 }
-const BOOK_ROOM_COMMAND = { "book": true, "booking": true, "reservation": true, "lock": true, "block": true, "appoint": true }
+const BOOK_ROOM_COMMAND = { "book": true, "booking": true, "reservation": true, "lock": true, "block": true, "appoint": true, "require": true, "requiring": true }
 const BOOK_ROOM_COMMAND_TEST = [
     "Book me a room with number 111",
     "Please book me a room with number 15",
@@ -29,6 +29,26 @@ const EMAIL_MOCK = {
 }
 
 
+const BODY_TESTS = [
+    "Book the room from today 4PM to tomorrow 9PM",
+    "From 13:00 tomorrow to 14:00 tomorrow"
+]
+
+const BODY_TEST_RESULTS = [
+    {
+        text: "today 4PM to tomorrow 9PM",
+        startTime: 16,
+        endTime: 21
+    },
+    {
+        text: "From 13:00 tomorrow to 14:00 tomorrow",
+        startTime: 13,
+        endTime: 14
+    }
+
+
+]
+
 module.exports = {
     USER_ACTIONS,
     BOOK_ROOM_COMMAND_TEST,
@@ -36,5 +56,7 @@ module.exports = {
     EMAIL_MOCK,
     CORRESPONDING_ROOM_NUMBER,
     CANCEL_ROOM_COMMAND,
-    BOOK_ROOM_COMMAND
+    BOOK_ROOM_COMMAND,
+    BODY_TESTS,
+    BODY_TEST_RESULTS
 }
