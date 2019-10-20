@@ -17,7 +17,7 @@ require('./config.php');
             $array_failure[] = $user;
         }
         else
-            $array_success[$user] = $row[0];
+            $array_success[$row[0]] = $user;
     }
     
     echo $status ? json_response($array_success,200) : json_response($array_failure,401);
