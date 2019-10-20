@@ -3,8 +3,7 @@ import { EMAIL_MOCK } from './email-parser/model'
 import { CLIENT_SERVER_URL } from './environment/env.prod'
 import Axios from 'axios'
 
-var parser = new EmailParser()
-parser.onEmailReceived(EMAIL_MOCK).then(res => {
+new EmailParser().onEmailReceived(EMAIL_MOCK).then(res => {
     console.log("\n\n---------BOOKING EMAIL PARSED------------")
     console.log(res)
 
@@ -26,3 +25,5 @@ parser.onEmailReceived(EMAIL_MOCK).then(res => {
     //could not book for some reason
     console.log(res)
 })
+
+

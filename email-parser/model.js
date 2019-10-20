@@ -51,7 +51,7 @@ const BODY_TEST_RESULTS = [
 
 const EMAIL_MOCK = {
     subject: "Request for booking of Room 11",
-    text: "Respected sir, Please book the respective room tomorrow from 11AM to 2PM thanking you aashis",
+    text: "Respected sir, Please book the respective room from Tuesday 11AM to Monday 2PM thanking you aashis",
     cc:
         [{ address: 'aashis.169109002@muj.manipal.edu', name: '' }],
     from:

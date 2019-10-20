@@ -23,9 +23,8 @@ mailListener.on("server:disconnected", function () {
 
 (function () {
   mailListener.on("mail", function (mail, seqno, attributes) {
-    var mailuid = attributes.uid,
-      toMailbox = '[Gmail]/All Mail]';
-
+    var mailuid = attributes.uid;
+    
     console.log({
       subject: mail.subject,
       text: mail.text,
