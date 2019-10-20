@@ -27,6 +27,8 @@ const ERRORS = {
     NO_ACTION_IN_SUBJECT: "We could not determine the action required to be done from the subject",
     NOT_VALID_TIME: "We could not determine the time interval between which the room has to be booked",
     OUT_OF_BOUND: "The given time interval is outside of the maximum allowd interval",
+    MAXIMUM_TIME: "Maximum allowed booking for room is 4 hours",
+    INVALID_ROOM: "The room that you have selected does not exist",
     NONE: true
 }
 
@@ -51,7 +53,7 @@ const BODY_TEST_RESULTS = [
 
 const EMAIL_MOCK = {
     subject: "Request for booking of Room 11",
-    text: "Respected sir, Please book the respective room from Tuesday 11AM to Monday 2PM thanking you aashis",
+    text: "Respected sir, Please book the respective room from Monday 11PM to Tuesday 1AM thanking you aashis",
     cc:
         [{ address: 'aashis.169109002@muj.manipal.edu', name: '' }],
     from:

@@ -51,15 +51,19 @@ function roundHours(date) {
 
 function errorCheck(userAction, roomNumber, duration) {
     var differenceInDays = (new Date(duration["startEpoch"]).getTime() - new Date().getTime()) / (1000 * 3600 * 24)
-    
+    var differenceInHours = Math.abs(new Date(duration["startEpoch"]) - new Date(duration["endEpoch"])) / 36e5; //36e5 is the scientific notation for 60*60*1000, dividing by which converts the milliseconds difference into hours.
+
+
     if (userAction["OPERATION"] == USER_ACTIONS.INVALID)
         return ERRORS.NO_ACTION_IN_SUBJECT
     else if (isNullOrUndefined(roomNumber))
         return ERRORS.NO_ROOM_IN_SUBJECT
     else if (isNullOrUndefined(duration["startTime"]) || isNullOrUndefined(duration["endTime"]) || isNullOrUndefined(duration["startEpoch"]) || isNullOrUndefined(duration["endEpoch"]))
         return ERRORS.NOT_VALID_TIME
-    else if ((new Date(duration["startTime"]).getTime() - new Date(duration["endTime"]).getTime()) < 0)
+    else if ((new Date(duration["startEpoch"]).getTime() - new Date(duration["endEpoch"]).getTime()) > 0)
         return ERRORS.NOT_VALID_TIME
+    else if (differenceInHours > 4)
+        return ERRORS.MAXIMUM_TIME
     else if (differenceInDays > 7)
         return ERRORS.OUT_OF_BOUND
     else
