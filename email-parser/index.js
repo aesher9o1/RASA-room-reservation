@@ -1,8 +1,7 @@
 import { NLU_SERVER_URL } from '../environment/env.prod'
 import axios from 'axios'
-import { containsKeyword, BOOK, CANCEL, parseNumber } from './utils'
+import { containsKeyword, BOOK, CANCEL, parseNumber, roundHours, errorCheck } from './utils'
 import chrono from 'chrono-node'
-import { isNullOrUndefined } from 'util'
 
 const sw = require('stopword')
 const { USER_ACTIONS, ERRORS } = require('./model')
@@ -26,7 +25,7 @@ export default class EmailParser {
                 roomNumber = that.emitRoomNumber(subject)
                 duration = that.emitDuration(body)
 
-                var error = that.errorCheck(userAction, roomNumber, duration)
+                var error = errorCheck(userAction, roomNumber, duration)
 
                 if (error != ERRORS.NONE) {
                     reject(error)
@@ -50,22 +49,6 @@ export default class EmailParser {
         })
     }
 
-    errorCheck(userAction, roomNumber, duration) {
-        var differenceInDays = (new Date(duration["startEpoch"]).getTime() - new Date().getTime()) / (1000 * 3600 * 24)
-
-        if (userAction["OPERATION"] == USER_ACTIONS.INVALID)
-            return ERRORS.NO_ACTION_IN_SUBJECT
-        else if (isNullOrUndefined(roomNumber))
-            return ERRORS.NO_ROOM_IN_SUBJECT
-        else if (isNullOrUndefined(duration["startTime"]) || isNullOrUndefined(duration["endTime"]) || isNullOrUndefined(duration["startEpoch"]) || isNullOrUndefined(duration["endEpoch"]))
-            return ERRORS.NOT_VALID_TIME
-        else if (duration["startTime"] > duration["endTime"])
-            return ERRORS.NOT_VALID_TIME
-        else if (differenceInDays > 7)
-            return ERRORS.OUT_OF_BOUND
-        else
-            return ERRORS.NONE
-    }
     /**
      * @param {String} subject 
      * Removes stop words from the string, itterate over known words to look for signs 
@@ -119,15 +102,11 @@ export default class EmailParser {
 
         return {
             text: parsedDate[0].text,
-            startTime: startTime ? this.roundHours(new Date(startTime)) : null,
-            endTime: endTime ? this.roundHours(new Date(endTime)) : null,
+            startTime: startTime ? roundHours(new Date(startTime)) : null,
+            endTime: endTime ? roundHours(new Date(endTime)) : null,
             startEpoch: startTime ? new Date(startTime) : null,
             endEpoch: endTime ? new Date(endTime) : null
         }
-    }
-
-    roundHours(date) {
-        return date.getMinutes() >= 29 ? date.getHours() + 1 : date.getHours();
     }
 
 }
