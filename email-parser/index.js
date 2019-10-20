@@ -51,6 +51,8 @@ export default class EmailParser {
     }
 
     errorCheck(userAction, roomNumber, duration) {
+        var differenceInDays = (new Date(duration["startEpoch"]).getTime() - new Date().getTime()) / (1000 * 3600 * 24)
+
         if (userAction["OPERATION"] == USER_ACTIONS.INVALID)
             return ERRORS.NO_ACTION_IN_SUBJECT
         else if (isNullOrUndefined(roomNumber))
@@ -59,6 +61,8 @@ export default class EmailParser {
             return ERRORS.NOT_VALID_TIME
         else if (duration["startTime"] > duration["endTime"])
             return ERRORS.NOT_VALID_TIME
+        else if (differenceInDays > 7)
+            return ERRORS.OUT_OF_BOUND
         else
             return ERRORS.NONE
     }
@@ -107,12 +111,18 @@ export default class EmailParser {
     emitDuration(body) {
         var parsedDate = chrono.parse(body, new Date(), { 'IST': 330 })
 
+        var startTime, endTime;
+        if (parsedDate[0].start)
+            startTime = parsedDate[0].start.date()
+        if (parsedDate[0].end)
+            endTime = parsedDate[0].end.date()
+
         return {
             text: parsedDate[0].text,
-            startTime: this.roundHours(new Date(parsedDate[0].start.date())),
-            endTime: this.roundHours(new Date(parsedDate[0].end.date())),
-            startEpoch: new Date(parsedDate[0].start.date()),
-            endEpoch: new Date(parsedDate[0].end.date())
+            startTime: startTime ? this.roundHours(new Date(startTime)) : null,
+            endTime: endTime ? this.roundHours(new Date(endTime)) : null,
+            startEpoch: startTime ? new Date(startTime) : null,
+            endEpoch: endTime ? new Date(endTime) : null
         }
     }
 

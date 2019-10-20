@@ -25,7 +25,8 @@ const CANCEL_ROOM_COMMAND_TEST = [
 const ERRORS = {
     NO_ROOM_IN_SUBJECT: "We could not find a valid room number in the subject.",
     NO_ACTION_IN_SUBJECT: "We could not determine the action required to be done from the subject",
-    NOT_VALID_TIME: "We could not determine the time interal between which the room has to be booked",
+    NOT_VALID_TIME: "We could not determine the time interval between which the room has to be booked",
+    OUT_OF_BOUND: "The given time interval is outside of the maximum allowd interval",
     NONE: true
 }
 
@@ -50,7 +51,7 @@ const BODY_TEST_RESULTS = [
 
 const EMAIL_MOCK = {
     subject: "Request for booking of Room 11",
-    text: "Respected sir, Please book me room 11 from tomorrow 11PM to 1PM thanking you aashis",
+    text: "Respected sir, Please book the respective room tomorrow from 11AM to 2PM thanking you aashis",
     cc:
         [{ address: 'aashis.169109002@muj.manipal.edu', name: '' }],
     from:
