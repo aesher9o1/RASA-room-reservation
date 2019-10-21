@@ -2,6 +2,7 @@ import { NLU_SERVER_URL } from '../environment/env.prod'
 import axios from 'axios'
 import { containsKeyword, BOOK, CANCEL, parseNumber, roundHours, errorCheck } from './utils'
 import chrono from 'chrono-node'
+import { isNullOrUndefined } from 'util'
 
 const sw = require('stopword')
 const { USER_ACTIONS, ERRORS } = require('./model')
@@ -22,29 +23,42 @@ export default class EmailParser {
         return new Promise(function (resolve, reject) {
             that.emitUserAction(subject).then(res => {
                 userAction = res
-                roomNumber = that.emitRoomNumber(subject)
-                duration = that.emitDuration(body)
+                if (userAction["OPERATION"] == USER_ACTIONS.CREATE) {
+                    roomNumber = that.emitRoomNumber(subject)
+                    duration = that.emitDuration(body)
 
-                var error = errorCheck(userAction, roomNumber, duration)
+                    var error = errorCheck(userAction, roomNumber, duration)
 
-                if (error != ERRORS.NONE) {
-                    reject(error)
-                    return
+                    if (error != ERRORS.NONE) {
+                        reject(error)
+                        return
+                    }
+                    else {
+                        resolve({
+                            userAction: userAction["OPERATION"],
+                            rasaEntry: userAction["entry"] || "NaN",
+                            roomNumber: roomNumber,
+                            startHour: duration["startTime"],
+                            endHour: duration["endTime"],
+                            startAt: duration["startEpoch"],
+                            endAt: duration["endEpoch"],
+                            phrase: duration["text"],
+                            participants: [...cc, from],
+                            requestedBy: from
+                        })
+                    }
                 }
                 else {
-                    resolve({
-                        userAction: userAction["OPERATION"],
-                        rasaEntry: userAction["entry"],
-                        roomNumber: roomNumber,
-                        startHour: duration["startTime"],
-                        endHour: duration["endTime"],
-                        startAt: duration["startEpoch"],
-                        endAt: duration["endEpoch"],
-                        phrase: duration["text"],
-                        participants: [...cc, from],
-                        requestedBy: from
-                    })
+                    var referenceNumber = that.emitRoomNumber(body)
+                    if (referenceNumber != -1) {
+                        resolve({
+                            userAction: userAction["OPERATION"],
+                            referenceNumber: referenceNumber,
+                            requestedBy: from
+                        })
+                    } else reject(ERRORS.INVALID_REFERENCE_NUMBER)
                 }
+
             })
         })
     }
@@ -61,8 +75,6 @@ export default class EmailParser {
         subject = sw.removeStopwords(subject.split(' '))
 
         return new Promise(function (resolve, reject) {
-
-
             if (containsKeyword(subject, BOOK)) {
                 resolve({ "OPERATION": USER_ACTIONS.CREATE })
                 return
@@ -95,13 +107,13 @@ export default class EmailParser {
         var parsedDate = chrono.parse(body, new Date(), { 'IST': 330 })
 
         var startTime, endTime;
-        if (parsedDate[0].start)
+        if (parsedDate[0])
             startTime = parsedDate[0].start.date()
-        if (parsedDate[0].end)
+        if (parsedDate[0])
             endTime = parsedDate[0].end.date()
 
         return {
-            text: parsedDate[0].text,
+            text: (parsedDate[0]) ? parsedDate[0].text : null,
             startTime: startTime ? roundHours(new Date(startTime)) : null,
             endTime: endTime ? roundHours(new Date(endTime)) : null,
             startEpoch: startTime ? new Date(startTime) : null,

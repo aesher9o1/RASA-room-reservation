@@ -18,7 +18,8 @@ export default class AttemptBooking {
         const IS_SAME_DATE_QUERY = new Date(parsedEmailObject["startAt"]).getDate() === new Date(parsedEmailObject["endAt"]).getDate()
         const TRANSACTION_ID = new Date().getTime().toString()
         const ROOM_BOOKING_REFERENCES = `${FIREBASE_COMPANY_REF}/booking/${parsedEmailObject['roomNumber']}/${this.generateDayEpoch(parsedEmailObject['startAt'])}/time`
-        const ROOM_LEDGER_REFERENCE = `${FIREBASE_COMPANY_REF}/booking/${parsedEmailObject['roomNumber']}/${this.generateDayEpoch(parsedEmailObject['startAt'])}/ledger/${TRANSACTION_ID}`
+        const ROOM_BOOKING_REFERENCES_END = `${FIREBASE_COMPANY_REF}/booking/${parsedEmailObject['roomNumber']}/${this.generateDayEpoch(parsedEmailObject['endAt'])}/time`
+        const ROOM_LEDGER_REFERENCE = `${FIREBASE_COMPANY_REF}/booking/ledger/${TRANSACTION_ID}`
 
 
         return new Promise(function (resolve, reject) {
@@ -28,15 +29,18 @@ export default class AttemptBooking {
                 if (snapshot.exists()) {
                     if (IS_SAME_DATE_QUERY) {
                         admin.database().ref(ROOM_BOOKING_REFERENCES).once('value').then(function (snapshot) {
-                            //if snapshot exists then there are ongoing meeting now
-                            if (snapshot.exists()) {
-                                if (!that.checkIfMeetingGoingOn(parsedEmailObject["startHour"], parsedEmailObject["endHour"], parsedEmailObject, snapshot)) {
-                                    that.bookRoomBetweenIntervals(parsedEmailObject["startHour"], parsedEmailObject["endHour"], parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE)
-                                    resolve("ROOM BOOKED")
+                            //if snapshot exists then there are ongoing meeting now or a booking made on that day
+                            if (snapshot.exists() && snapshot.val()[parsedEmailObject["startHour"]]) {
+                                admin.database().ref(`${FIREBASE_COMPANY_REF}/booking/ledger/${(snapshot.val()[parsedEmailObject["startHour"]]['ref'])}`).once('value').then(function (refSnapshot) {
 
-                                } else
-                                    reject(ERRORS.MEETING_GOING_ON)
-                                return
+                                    if (!refSnapshot.exists() || !that.checkIfMeetingGoingOn(parsedEmailObject["startHour"], parsedEmailObject["endHour"], parsedEmailObject, snapshot)) {
+                                        that.bookRoomBetweenIntervals(parsedEmailObject["startHour"], parsedEmailObject["endHour"], parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE)
+                                        resolve("ROOM BOOKED")
+
+                                    } else
+                                        reject(ERRORS.MEETING_GOING_ON)
+                                    return
+                                })
                             }
                             else {
                                 that.bookRoomBetweenIntervals(parsedEmailObject["startHour"], parsedEmailObject["endHour"], parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE)
@@ -47,8 +51,47 @@ export default class AttemptBooking {
 
                     }
                     else {
+                        admin.database().ref(ROOM_BOOKING_REFERENCES).once('value').then(function (snapshotDAY1) {
+                            //if snapshot exists then there are ongoing meeting now
+                            if (snapshotDAY1.exists() && snapshot.val()[parsedEmailObject["startHour"]]) {
+                                admin.database().ref(`${FIREBASE_COMPANY_REF}/booking/ledger/${(snapshot.val()[parsedEmailObject["startHour"]]['ref'])}`).once('value').then(function (refSnapshot) {
 
-                        //different date
+                                    if (!refSnapshot.exists() || !that.checkIfMeetingGoingOn(parsedEmailObject["startHour"], 24, parsedEmailObject, snapshotDAY1)) {
+                                        admin.database().ref(ROOM_BOOKING_REFERENCES_END).once('value').then(function (snapshotDAY2) {
+                                            if (snapshotDAY2.exists()) {
+                                                if (!refSnapshot.exists() || !that.checkIfMeetingGoingOn(0, parsedEmailObject["endHour"], parsedEmailObject, snapshotDAY2)) {
+                                                    that.bookRoomBetweenIntervals(parsedEmailObject["startHour"], 24, parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE)
+                                                    that.bookRoomBetweenIntervals(0, parsedEmailObject["endHour"], parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE, ROOM_BOOKING_REFERENCES_END)
+                                                    resolve("ROOM BOOKED")
+                                                    return
+                                                }
+                                                else {
+                                                    reject(ERRORS.MEETING_GOING_ON)
+                                                    return
+                                                }
+                                            } else {
+                                                that.bookRoomBetweenIntervals(parsedEmailObject["startHour"], 24, parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE)
+                                                that.bookRoomBetweenIntervals(0, parsedEmailObject["endHour"], parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE, ROOM_BOOKING_REFERENCES_END)
+                                                resolve("ROOM BOOKED")
+                                                return
+                                            }
+                                        })
+                                        resolve("ROOM BOOKED")
+
+                                    } else
+                                        reject(ERRORS.MEETING_GOING_ON)
+                                    return
+
+                                })
+
+                            }
+                            else {
+                                that.bookRoomBetweenIntervals(parsedEmailObject["startHour"], 24, parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE)
+                                that.bookRoomBetweenIntervals(0, parsedEmailObject["endHour"], parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE, ROOM_BOOKING_REFERENCES_END)
+                                resolve("ROOM BOOKED")
+                                return
+                            }
+                        })
                     }
                 }
                 else {
@@ -59,29 +102,49 @@ export default class AttemptBooking {
         })
     }
 
-    //stub what to do if =0?
+    cancelBooking(parsedEmailObject) {
+        const ROOM_LEDGER_REFERENCE = `${FIREBASE_COMPANY_REF}/booking/ledger/${parsedEmailObject['referenceNumber']}`
+        return new Promise(function (resolve, reject) {
+            admin.database().ref(ROOM_LEDGER_REFERENCE).once('value').then(function (snapshot) {
+                if (snapshot.exists()) {
+                    if ((snapshot.val())["requestedBy"] == parsedEmailObject["requestedBy"]) {
+                        admin.database().ref(ROOM_LEDGER_REFERENCE).remove()
+                        resolve("DONE")
+                    } else reject(ERRORS.UNAUTHORIZED)
+                }
+                else {
+                    reject(ERRORS.INVALID_REFERENCE_NUMBER)
+                }
+            })
+        })
+
+    }
+
+
+
     checkIfMeetingGoingOn(START, END, parsedEmailObject, snapshot) {
         if (isNullOrUndefined(snapshot.val()))
             return false
 
-        for (let i = START; i <= END; i++)
+        for (let i = START; i < END; i++)
             if (!isNullOrUndefined((snapshot.val())[`${i}`]))
                 return (new Date(parsedEmailObject["startAt"]).getTime() - new Date((snapshot.val())[`${i}`]["endAt"]).getTime() <= 0)
 
         return false
     }
 
-    bookRoomBetweenIntervals(START, END, parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE) {
+    bookRoomBetweenIntervals(START, END, parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE, ROOM_BOOKING_REFERENCES_END = undefined) {
         var dataToPush = new Object();
 
-        for (let i = START; i <= END; i++)
-            dataToPush[i] = {
-                ref: TRANSACTION_ID,
-                startAt: parsedEmailObject["startAt"],
-                endAt: parsedEmailObject["endAt"]
-            }
+        if (END > START)
+            for (let i = START; i < END; i++)
+                dataToPush[i] = {
+                    ref: TRANSACTION_ID,
+                    startAt: parsedEmailObject["startAt"],
+                    endAt: parsedEmailObject["endAt"]
+                }
 
-        admin.database().ref(ROOM_BOOKING_REFERENCES).update(dataToPush)
+        admin.database().ref((ROOM_BOOKING_REFERENCES_END) ? ROOM_BOOKING_REFERENCES_END : ROOM_BOOKING_REFERENCES).update(dataToPush)
         admin.database().ref(ROOM_LEDGER_REFERENCE).set(parsedEmailObject)
     }
 

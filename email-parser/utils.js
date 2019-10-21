@@ -12,16 +12,17 @@ const CANCEL = "CANCEL"
  */
 
 function containsKeyword(subjectWithoutStopWords, MODE) {
+    var result = false;
+
     if (MODE === BOOK)
         subjectWithoutStopWords.forEach(ele => {
-            if (BOOK_ROOM_COMMAND[ele.toLowerCase()])
-                return true
+            result = (BOOK_ROOM_COMMAND[ele.toLowerCase()]) || result
         })
     else if (MODE === CANCEL)
         subjectWithoutStopWords.forEach(ele => {
-            if (CANCEL_ROOM_COMMAND[ele.toLowerCase()])
-                return true
+            result = (CANCEL_ROOM_COMMAND[ele.toLowerCase()]) || result
         })
+    return result
 }
 
 /**
