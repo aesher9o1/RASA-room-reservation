@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "start": "babel-node server.js"
+    "start": "babel-node driver.js"
   },
   "repository": {
     "type": "git",

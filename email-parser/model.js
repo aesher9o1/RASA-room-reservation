@@ -29,6 +29,7 @@ const ERRORS = {
     OUT_OF_BOUND: "The given time interval is outside of the maximum allowd interval",
     MAXIMUM_TIME: "Maximum allowed booking for room is 4 hours",
     INVALID_ROOM: "The room that you have selected does not exist",
+    MEETING_GOING_ON: "There is an ongoing meeting going on currently",
     NONE: true
 }
 
@@ -59,6 +60,21 @@ const EMAIL_MOCK = {
     from:
         { address: 'aashiskumar986@gmail.com', name: 'Aashis Kumar' }
 }
+const PARSED_EMAIL_MOCK = {
+    userAction: 'CANCEL',
+    rasaEntry: null,
+    roomNumber: 1,
+    startHour: 13,
+    endHour: 14,
+    startAt: new Date("2019-10-22T07:30:00.000Z"),
+    endAt: new Date("2019-10-22T08:30:00.000Z"),
+    phrase: 'tomorrow 1PM to 2PM',
+    participants:
+        ['aashis.169109002@muj.manipal.edu',
+            'aashiskumar986@gmail.com'],
+    requestedBy: 'aashiskumar986@gmail.com'
+}
+
 
 
 module.exports = {
@@ -71,5 +87,6 @@ module.exports = {
     BOOK_ROOM_COMMAND,
     BODY_TESTS,
     BODY_TEST_RESULTS,
-    ERRORS
+    ERRORS,
+    PARSED_EMAIL_MOCK
 }
