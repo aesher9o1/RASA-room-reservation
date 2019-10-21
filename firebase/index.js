@@ -16,10 +16,9 @@ export default class AttemptBooking {
         const that = this;
         const ROOM_NUMBER_EXIST_REF = `${FIREBASE_COMPANY_REF}/rooms/${parsedEmailObject['roomNumber']}`
         const IS_SAME_DATE_QUERY = new Date(parsedEmailObject["startAt"]).getDate() === new Date(parsedEmailObject["endAt"]).getDate()
-        const START_EPOCH = this.generateDayEpoch(parsedEmailObject["startAt"])
         const TRANSACTION_ID = new Date().getTime().toString()
-        const ROOM_BOOKING_REFERENCES = `${FIREBASE_COMPANY_REF}/booking/${parsedEmailObject['roomNumber']}/${START_EPOCH}/time`
-        const ROOM_LEDGER_REFERENCE = `${FIREBASE_COMPANY_REF}/booking/${parsedEmailObject['roomNumber']}/${START_EPOCH}/ledger/${TRANSACTION_ID}`
+        const ROOM_BOOKING_REFERENCES = `${FIREBASE_COMPANY_REF}/booking/${parsedEmailObject['roomNumber']}/${this.generateDayEpoch(parsedEmailObject['startAt'])}/time`
+        const ROOM_LEDGER_REFERENCE = `${FIREBASE_COMPANY_REF}/booking/${parsedEmailObject['roomNumber']}/${this.generateDayEpoch(parsedEmailObject['startAt'])}/ledger/${TRANSACTION_ID}`
 
 
         return new Promise(function (resolve, reject) {
@@ -31,11 +30,12 @@ export default class AttemptBooking {
                         admin.database().ref(ROOM_BOOKING_REFERENCES).once('value').then(function (snapshot) {
                             //if snapshot exists then there are ongoing meeting now
                             if (snapshot.exists()) {
-                                (!that.checkIfMeetingGoingOn(parsedEmailObject["startHour"], parsedEmailObject["endHour"], parsedEmailObject, snapshot)) ? () => {
+                                if (!that.checkIfMeetingGoingOn(parsedEmailObject["startHour"], parsedEmailObject["endHour"], parsedEmailObject, snapshot)) {
                                     that.bookRoomBetweenIntervals(parsedEmailObject["startHour"], parsedEmailObject["endHour"], parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE)
                                     resolve("ROOM BOOKED")
 
-                                } : reject(ERRORS.MEETING_GOING_ON)
+                                } else
+                                    reject(ERRORS.MEETING_GOING_ON)
                                 return
                             }
                             else {
@@ -59,11 +59,14 @@ export default class AttemptBooking {
         })
     }
 
-
+    //stub what to do if =0?
     checkIfMeetingGoingOn(START, END, parsedEmailObject, snapshot) {
+        if (isNullOrUndefined(snapshot.val()))
+            return false
+
         for (let i = START; i <= END; i++)
             if (!isNullOrUndefined((snapshot.val())[`${i}`]))
-                return (new Date(parsedEmailObject["startAt"]).getTime() - new Date((snapshot.val())[`${i}`]["endAt"]).getTime() < 0)
+                return (new Date(parsedEmailObject["startAt"]).getTime() - new Date((snapshot.val())[`${i}`]["endAt"]).getTime() <= 0)
 
         return false
     }

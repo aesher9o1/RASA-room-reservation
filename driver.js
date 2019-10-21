@@ -1,15 +1,22 @@
 import firebase from './firebase'
-import { PARSED_EMAIL_MOCK } from './email-parser/model'
+import { EMAIL_MOCK } from './email-parser/model'
+import EmailParser from './email-parser'
 
 
 
-new firebase().attemptBooking(PARSED_EMAIL_MOCK).then(res => {
-    console.log(res)
-    
+new EmailParser().onEmailReceived(EMAIL_MOCK).then(res => {
+    new firebase().attemptBooking(res).then(res => {
+        console.log(res)
+
+    }).catch(res => {
+        console.log(res)
+
+    })
 }).catch(res => {
     console.log(res)
-    return
 })
+
+
 
 
 
