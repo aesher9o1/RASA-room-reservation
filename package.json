@@ -7,9 +7,15 @@
     "@types/node": "12.11.2",
     "@types/react": "16.9.9",
     "@types/react-dom": "16.9.2",
+    "@types/styletron-engine-atomic": "^1.1.0",
+    "@types/styletron-react": "^5.0.2",
+    "baseui": "^9.9.0",
+    "firebase": "^7.2.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
+    "styletron-engine-atomic": "^1.4.1",
+    "styletron-react": "^5.2.2",
     "typescript": "3.6.4"
   },
   "scripts": {
