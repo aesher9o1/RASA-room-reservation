@@ -21,7 +21,7 @@ To build a system that allows access only to the authorized user who has booked 
 
 | Branch        | Description          | Status|
 | ------------- |:-------------:| :-------------:|
-| **node_mcu**      | The IOT code that'll for Node MCU and RFID Module| :heavy_multiplication_x: Yet to start|
+| **node_mcu**      | The IOT code that'll for Node MCU and RFID Module| :warning: Hooking up with APIs|
 | **nodemailer**      | Server to send emails *(Can be replaced with 3rd party APIs)*  | :heavy_multiplication_x: Yet to push|
 | **frontend**      | Frontend for the react App built using baseweb v9 UI kit   | :warning: Working on user side|
 | **client_server**      | Checks if all the participants belong to the firm     |   :heavy_check_mark: *Completed*|
@@ -36,7 +36,7 @@ To build a system that allows access only to the authorized user who has booked 
 
 | Branch        | Description          | Status|
 | ------------- |:-------------:| :-------------:|
-| **node_mcu**      | The IOT code that'll for Node MCU and RFID Module| :heavy_multiplication_x: Yet to start|
+| **node_mcu**      | The IOT code that'll for Node MCU and RFID Module| :warning: Hooking up with APIs|
 | **nodemailer**      | Server to send emails *(Can be replaced with 3rd party APIs)*  | :heavy_multiplication_x: Yet to push|
 | **frontend**      | Frontend for the react App built using baseweb v9 UI kit for admin   |   :heavy_check_mark: *Completed*|
 | **client_server**      | Checks if all the participants belong to the firm     |   :heavy_check_mark: *Completed*|
