@@ -1,0 +1,32 @@
+{
+  "name": "nodemailer-iotauth",
+  "version": "0.0.1",
+  "description": "send email and authenticates IOT devices",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel-node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aesher9o1/RASA-room-reservation.git"
+  },
+  "author": "aesher9o1",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aesher9o1/RASA-room-reservation/issues"
+  },
+  "homepage": "https://github.com/aesher9o1/RASA-room-reservation#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemailer": "^6.3.1",
+    "xoauth2": "^1.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/preset-env": "^7.6.3"
+  }
+}
