@@ -2,8 +2,8 @@
 > The branch that handles the lock of the VC room
 
 ![](https://hackster.imgix.net/uploads/attachments/384028/screenshot_(17)_QOLA6f0MRT.png?auto=compress&w=900&h=675&fit=min&fm=jpg)
+<br/><br/>
 **Hardware Components**
-
 1. NodeMCU
 2. MFRC522 RFID Reader
 3. RFID Tags ( 13.56 MHz )
