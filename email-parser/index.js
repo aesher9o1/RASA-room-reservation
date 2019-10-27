@@ -2,7 +2,6 @@ import { NLU_SERVER_URL } from '../environment/env.prod'
 import axios from 'axios'
 import { containsKeyword, BOOK, CANCEL, parseNumber, roundHours, errorCheck } from './utils'
 import chrono from 'chrono-node'
-import { isNullOrUndefined } from 'util'
 
 const sw = require('stopword')
 const { USER_ACTIONS, ERRORS } = require('./model')

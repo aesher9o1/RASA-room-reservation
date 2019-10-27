@@ -30,7 +30,7 @@ const ERRORS = {
     MAXIMUM_TIME: "Maximum allowed booking for room is 4 hours",
     INVALID_ROOM: "The room that you have selected does not exist",
     MEETING_GOING_ON: "There is an ongoing meeting going on currently",
-    INVALID_REFERENCE_NUMBER: "There was no reference number mentioned in the body",
+    INVALID_REFERENCE_NUMBER: "There was no reference number mentioned in the body or the reference number you entered does not exist",
     UNAUTHORIZED: "Only person who created the meeting can cancel it",
     NONE: true
 }
@@ -55,8 +55,8 @@ const BODY_TEST_RESULTS = [
 
 
 const EMAIL_MOCK = {
-    subject: "Cancel booking of room 1",
-    text: "Please cancel 1571688303671",
+    subject: "booking of room 1",
+    text: "Book from 10AM to 11AM",
     cc:
         [{ address: 'aashis.169109002@muj.manipal.edu', name: '' }],
     from:

@@ -5,10 +5,10 @@ import EmailParser from './email-parser'
 
 
 new EmailParser().onEmailReceived(EMAIL_MOCK).then(res => {
-    console.log(res)
+    var userAction = res['userAction']
     var result = res
     delete result['userAction']
-    if (res['userAction'] == USER_ACTIONS.CREATE) {
+    if (userAction == USER_ACTIONS.CREATE) {
         new firebase().attemptBooking(result).then(res => {
             console.log(res)
 
@@ -17,18 +17,17 @@ new EmailParser().onEmailReceived(EMAIL_MOCK).then(res => {
 
         })
     }
-    else if (res['userAction'] == USER_ACTIONS.CANCEL) {
+    else if (userAction == USER_ACTIONS.CANCEL) {
         new firebase().cancelBooking(result).then(res => {
             console.log(res)
         }).catch(error => {
-            console.error();
-
+            console.log(error);
         })
     }
 
 
-}).catch(res => {
-    console.log(res)
+}).catch(err => {
+    console.log(err)
 })
 
 
