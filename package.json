@@ -5,14 +5,14 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "start": "babel-node driver.js"
+    "start": "babel-node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/aesher9o1/bristlecone-Q6.git"
   },
   "author": "aesher9o1",
-  "license": "ISC",
+  "license": "BSD",
   "bugs": {
     "url": "https://github.com/aesher9o1/bristlecone-Q6/issues"
   },

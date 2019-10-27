@@ -10,11 +10,12 @@ const { USER_ACTIONS, ERRORS } = require('./model')
 export default class EmailParser {
 
     onEmailReceived(emailObj) {
+        console.log(emailObj)
         const subject = emailObj["subject"]
         const from = emailObj["from"]["address"]
-        const cc = emailObj["cc"].map(ele => {
+        const cc = (typeof (emailObj["cc"]) === "object") ? emailObj["cc"].map(ele => {
             return ele["address"]
-        })
+        }) : null
         const body = emailObj["text"]
         const that = this
 
