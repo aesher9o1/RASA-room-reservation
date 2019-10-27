@@ -5,8 +5,9 @@ import EmailParser from './email-parser'
 
 
 new EmailParser().onEmailReceived(EMAIL_MOCK).then(res => {
+    console.log(res)
     var result = res
-    delete result['userAction:']
+    delete result['userAction']
     if (res['userAction'] == USER_ACTIONS.CREATE) {
         new firebase().attemptBooking(result).then(res => {
             console.log(res)

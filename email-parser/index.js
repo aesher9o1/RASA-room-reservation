@@ -10,7 +10,6 @@ const { USER_ACTIONS, ERRORS } = require('./model')
 export default class EmailParser {
 
     onEmailReceived(emailObj) {
-        console.log(emailObj)
         const subject = emailObj["subject"]
         const from = emailObj["from"]["address"]
         const cc = (typeof (emailObj["cc"]) === "object") ? emailObj["cc"].map(ele => {
@@ -76,12 +75,12 @@ export default class EmailParser {
         subject = sw.removeStopwords(subject.split(' '))
 
         return new Promise(function (resolve, reject) {
-            if (containsKeyword(subject, BOOK)) {
-                resolve({ "OPERATION": USER_ACTIONS.CREATE })
+            if (containsKeyword(subject, CANCEL)) {
+                resolve({ "OPERATION": USER_ACTIONS.CANCEL })
                 return
             }
-            else if (containsKeyword(subject, CANCEL)) {
-                resolve({ "OPERATION": USER_ACTIONS.CANCEL })
+            else if (containsKeyword(subject, BOOK)) {
+                resolve({ "OPERATION": USER_ACTIONS.CREATE })
                 return
             }
 
