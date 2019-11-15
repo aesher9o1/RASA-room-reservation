@@ -29,7 +29,7 @@ const ERRORS = {
     OUT_OF_BOUND: "The given time interval is outside of the maximum allowd interval",
     MAXIMUM_TIME: "Maximum allowed booking for room is 4 hours",
     INVALID_ROOM: "The room that you have selected does not exist",
-    MEETING_GOING_ON: "There is an ongoing meeting going on currently",
+    MEETING_GOING_ON: "There is an ongoing meeting currently",
     INVALID_REFERENCE_NUMBER: "There was no reference number mentioned in the body or the reference number you entered does not exist",
     UNAUTHORIZED: "Only person who created the meeting can cancel it",
     NONE: true

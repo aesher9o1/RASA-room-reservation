@@ -24,6 +24,17 @@ const log = (message, withColor) => {
     console.log(message)
 }
 
+const constructEmail = (body, status, participants) => {
+  switch (status) {
+    case "BOOKED":
+      break;
+    case "UNAUTH":
+      break;
+    case "ERR":
+      break
+  }
+}
+
 
 mailListener.on("server:connected", () => log("GMail Client Connected", true));
 mailListener.on("server:disconnected", () => log('GMail Client Disconencted'));
@@ -48,7 +59,7 @@ mailListener.on("server:disconnected", () => log('GMail Client Disconencted'));
 
     new EmailParser().onEmailReceived(emailReceived).then(parsedBooking => {
       log("\n\n---------BOOKING EMAIL PARSED------------", true)
-      // log(paresedBooking, false)
+      log(parsedBooking, false)
       var userAction = parsedBooking["userAction"]
       var result = parsedBooking
       delete result['userAction']
@@ -61,6 +72,7 @@ mailListener.on("server:disconnected", () => log('GMail Client Disconencted'));
         log(validParticipants, false)
 
         //participants are valid proceed to booking
+        result["participants"] = Object.keys(validParticipants)
         bookingWithParsedAction(userAction, result)
 
       }).catch(error => {
@@ -70,10 +82,10 @@ mailListener.on("server:disconnected", () => log('GMail Client Disconencted'));
         log(invalidParticipants, false)
 
       })
-    }).catch(res => {
+    }).catch(err => {
       //could not book for some reason
       log("\n\n---------ERROR BOOKING------------", true)
-      log(res, false)
+      log(err, false)
     })
 
 
@@ -97,6 +109,7 @@ mailListener.on("server:disconnected", () => log('GMail Client Disconencted'));
  * @param {object} parsedResult 
  */
 function bookingWithParsedAction(action, parsedResult) {
+  console.log(parsedResult)
   if (action == USER_ACTIONS.CREATE) {
     new firebase().attemptBooking(parsedResult).then(res => {
       log(res, false)
