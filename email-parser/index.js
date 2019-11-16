@@ -33,18 +33,21 @@ export default class EmailParser {
                         return
                     }
                     else {
-                        resolve({
-                            userAction: userAction["OPERATION"],
-                            rasaEntry: userAction["entry"] || "NaN",
-                            roomNumber: roomNumber,
-                            startHour: duration["startTime"],
-                            endHour: duration["endTime"],
-                            startAt: duration["startEpoch"],
-                            endAt: duration["endEpoch"],
-                            phrase: duration["text"],
-                            participants: [...cc, from],
-                            requestedBy: from
-                        })
+
+                        if (typeof cc == 'object') {
+                            resolve({
+                                userAction: userAction["OPERATION"],
+                                rasaEntry: userAction["entry"] || "NaN",
+                                roomNumber: roomNumber,
+                                startHour: duration["startTime"],
+                                endHour: duration["endTime"],
+                                startAt: duration["startEpoch"],
+                                endAt: duration["endEpoch"],
+                                phrase: duration["text"],
+                                participants: [...cc, from],
+                                requestedBy: from
+                            })
+                        } else reject("need minimum of 2 participants to book the room")
                     }
                 }
                 else {

@@ -35,7 +35,7 @@ export default class AttemptBooking {
 
                                     if (!refSnapshot.exists() || !that.checkIfMeetingGoingOn(parsedEmailObject["startHour"], parsedEmailObject["endHour"], parsedEmailObject, snapshot)) {
                                         that.bookRoomBetweenIntervals(parsedEmailObject["startHour"], parsedEmailObject["endHour"], parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE)
-                                        resolve("ROOM BOOKED")
+                                        resolve(TRANSACTION_ID)
 
                                     } else
                                         reject(ERRORS.MEETING_GOING_ON)
@@ -44,7 +44,7 @@ export default class AttemptBooking {
                             }
                             else {
                                 that.bookRoomBetweenIntervals(parsedEmailObject["startHour"], parsedEmailObject["endHour"], parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE)
-                                resolve("ROOM BOOKED")
+                                resolve(TRANSACTION_ID)
                                 return
                             }
                         })
@@ -62,7 +62,7 @@ export default class AttemptBooking {
                                                 if (!refSnapshot.exists() || !that.checkIfMeetingGoingOn(0, parsedEmailObject["endHour"], parsedEmailObject, snapshotDAY2)) {
                                                     that.bookRoomBetweenIntervals(parsedEmailObject["startHour"], 24, parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE)
                                                     that.bookRoomBetweenIntervals(0, parsedEmailObject["endHour"], parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE, ROOM_BOOKING_REFERENCES_END)
-                                                    resolve("ROOM BOOKED")
+                                                    resolve(TRANSACTION_ID)
                                                     return
                                                 }
                                                 else {
@@ -72,11 +72,11 @@ export default class AttemptBooking {
                                             } else {
                                                 that.bookRoomBetweenIntervals(parsedEmailObject["startHour"], 24, parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE)
                                                 that.bookRoomBetweenIntervals(0, parsedEmailObject["endHour"], parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE, ROOM_BOOKING_REFERENCES_END)
-                                                resolve("ROOM BOOKED")
+                                                resolve(TRANSACTION_ID)
                                                 return
                                             }
                                         })
-                                        resolve("ROOM BOOKED")
+                                        resolve(TRANSACTION_ID)
 
                                     } else
                                         reject(ERRORS.MEETING_GOING_ON)
@@ -88,7 +88,7 @@ export default class AttemptBooking {
                             else {
                                 that.bookRoomBetweenIntervals(parsedEmailObject["startHour"], 24, parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE)
                                 that.bookRoomBetweenIntervals(0, parsedEmailObject["endHour"], parsedEmailObject, TRANSACTION_ID, ROOM_BOOKING_REFERENCES, ROOM_LEDGER_REFERENCE, ROOM_BOOKING_REFERENCES_END)
-                                resolve("ROOM BOOKED")
+                                resolve(TRANSACTION_ID)
                                 return
                             }
                         })

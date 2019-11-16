@@ -1,5 +1,5 @@
 const MailListener = require("mail-listener2");
-const { GMAIL_CRED } = require('./environment/env.prod.js')
+const { GMAIL_CRED, AUTH_MAIL_SERVER_URL } = require('./environment/env.prod.js')
 import EmailParser from './email-parser'
 import { CLIENT_SERVER_URL } from './environment/env.prod'
 import { USER_ACTIONS } from './email-parser/model'
@@ -24,17 +24,13 @@ const log = (message, withColor) => {
     console.log(message)
 }
 
-const constructEmail = (body, status, participants) => {
-  switch (status) {
-    case "BOOKED":
-      break;
-    case "UNAUTH":
-      break;
-    case "ERR":
-      break
-  }
+const sendMessageToParticipants = (emailContent) => {
+  Axios.post(AUTH_MAIL_SERVER_URL, emailContent).then(res => {
+    log(`\n\n---------${res.data["message"]}------------`, true);
+  }, err => {
+    console.log(err)
+  })
 }
-
 
 mailListener.on("server:connected", () => log("GMail Client Connected", true));
 mailListener.on("server:disconnected", () => log('GMail Client Disconencted'));
@@ -80,12 +76,24 @@ mailListener.on("server:disconnected", () => log('GMail Client Disconencted'));
 
         log("\n\n---------UNAUTHORIZED PARTICIPANTS------------", true)
         log(invalidParticipants, false)
+        sendMessageToParticipants({
+          body: ` <b>${invalidParticipants.join()}</b> are not authorized by the company to participate in the meeting.`,
+          participants: result["requestedBy"],
+          requestedBy: result["requestedBy"],
+          subject: `An error occured while booking room number ${result["roomNumber"]}`
+        })
 
       })
     }).catch(err => {
       //could not book for some reason
       log("\n\n---------ERROR BOOKING------------", true)
       log(err, false)
+      sendMessageToParticipants({
+        body: `Sorry the booking could not be done due to <b>${err}</b>`,
+        participants: result["requestedBy"],
+        requestedBy: result["requestedBy"],
+        subject: `An error occured while booking room number ${result["roomNumber"]}`
+      })
     })
 
 
@@ -109,13 +117,26 @@ mailListener.on("server:disconnected", () => log('GMail Client Disconencted'));
  * @param {object} parsedResult 
  */
 function bookingWithParsedAction(action, parsedResult) {
-  console.log(parsedResult)
+  log('\n\n---------ATTEMPTING BOOKING------------', true);
+  log(parsedResult, false)
   if (action == USER_ACTIONS.CREATE) {
     new firebase().attemptBooking(parsedResult).then(res => {
-      log(res, false)
+      sendMessageToParticipants({
+        body: `Booking for room number <b>${parsedResult["roomNumber"]}</b> for <b>${parsedResult["startAt"].toUTCString()}</b> upto <b>${parsedResult["endAt"].toUTCString()}</b> is confirmed!. <br><br><br><b style="color:#EF5350; font-size:9px">In case you want to cancel the meeting send Cancel room booking with reference ID ${res}</b>`,
+        participants: parsedResult["participants"],
+        requestedBy: parsedResult["requestedBy"],
+        subject: `Meeting Scheduled for ${parsedResult["startAt"].toUTCString()}`
+      })
 
-    }).catch(res => {
-      log(res, false)
+
+    }).catch(err => {
+      log(err, false)
+      sendMessageToParticipants({
+        body: `Sorry the booking could not be done due to <b>${err}</b>`,
+        participants: parsedResult["requestedBy"],
+        requestedBy: parsedResult["requestedBy"],
+        subject: `An error occured while booking room number ${parsedResult["roomNumber"]}`
+      })
 
     })
   }

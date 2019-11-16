@@ -10,24 +10,13 @@ import EmailParser from './email-parser'
 import Axios from 'axios'
 import { AUTH_MAIL_SERVER_URL } from './environment/env.prod'
 
-const constructEmail = (body, status, participants) => {
-    switch (status) {
-        case "BOOKED":
-            break;
-        case "UNAUTH":
-            break;
-        case "ERR":
-            break;
-        case "CANCEL":
-            break;
-    }
-}
+
 
 const sendMessageToParticipants = (emailContent) => {
     Axios.post(AUTH_MAIL_SERVER_URL, emailContent).then(res => {
         console.log(res.data["message"])
     }, err => {
-
+        console.log(err)
     })
 }
 
@@ -41,18 +30,22 @@ new EmailParser().onEmailReceived(EMAIL_MOCK).then(res => {
     console.log(result)
     if (userAction == USER_ACTIONS.CREATE) {
         new firebase().attemptBooking(result).then(res => {
-            console.log(res)
-            if (res == "ROOM BOOKED") {
-                sendMessageToParticipants(constructEmail(
-                    `Congratulation! booking for room number ${result["roomNumber"]} for ${result["startAt"].toUTCString()} upto ${result["endAt"].toUTCString()} is confirmed!.`,
-                    "BOOKED",
-                    result["participants"]
-                ))
+            sendMessageToParticipants({
+                body: `Booking for room number <b>${result["roomNumber"]}</b> for <b>${result["startAt"].toUTCString()}</b> upto <b>${result["endAt"].toUTCString()}</b> is confirmed!. <br><br><br><b style="color:#EF5350; font-size:9px">In case you want to cancel the meeting send Cancel room booking with reference ID ${res}</b>`,
+                participants: result["participants"],
+                requestedBy: result["requestedBy"],
+                subject: `Meeting Scheduled for ${result["startAt"].toUTCString()}`,
+                success: true
+            })
 
-            }
-
-        }).catch(res => {
-            console.log(res)
+        }).catch(err => {
+            console.log(err)
+            sendMessageToParticipants({
+                body: `Sorry the booking could not be done due to <b>${err}</b>`,
+                participants: result["requestedBy"],
+                requestedBy: result["requestedBy"],
+                subject: `An error occured while booking room number ${result["roomNumber"]}`
+            })
 
         })
     }
