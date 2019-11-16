@@ -51,9 +51,19 @@ new EmailParser().onEmailReceived(EMAIL_MOCK).then(res => {
     }
     else if (userAction == USER_ACTIONS.CANCEL) {
         new firebase().cancelBooking(result).then(res => {
-            console.log(res)
+            sendMessageToParticipants({
+                body: `Your booking with reference number <b>${result['referenceNumber']}</b> has been cancelled`,
+                participants: res,
+                requestedBy: result["requestedBy"],
+                subject: `Booking Cancelled`
+            })
         }).catch(error => {
-            console.log(error);
+            sendMessageToParticipants({
+                body: `Sorry the there was some trouble cancelling your booking due to ${error}`,
+                participants: result["requestedBy"],
+                requestedBy: result["requestedBy"],
+                subject: `An error occured while`
+            })
         })
     }
 

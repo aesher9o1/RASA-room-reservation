@@ -141,11 +141,21 @@ function bookingWithParsedAction(action, parsedResult) {
     })
   }
   else if (action == USER_ACTIONS.CANCEL) {
-    new firebase().cancelBooking(parsedResult).then(res => {
-      log(res, false)
+    log('\n\n---------ATTEMPTING CANCELLATION------------', true);
+    new firebase().cancelBooking(result).then(res => {
+      sendMessageToParticipants({
+        body: `Your booking with reference number <b>${result['referenceNumber']}</b> has been cancelled`,
+        participants: res,
+        requestedBy: result["requestedBy"],
+        subject: `Booking Cancelled`
+      })
     }).catch(error => {
-      log(error, false)
-
+      sendMessageToParticipants({
+        body: `Sorry the there was some trouble cancelling your booking due to ${error}`,
+        participants: result["requestedBy"],
+        requestedBy: result["requestedBy"],
+        subject: `An error occured while`
+      })
     })
   }
 }

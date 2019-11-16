@@ -103,13 +103,19 @@ export default class AttemptBooking {
     }
 
     cancelBooking(parsedEmailObject) {
+        var that = this
         const ROOM_LEDGER_REFERENCE = `${FIREBASE_COMPANY_REF}/booking/ledger/${parsedEmailObject['referenceNumber']}`
         return new Promise(function (resolve, reject) {
             admin.database().ref(ROOM_LEDGER_REFERENCE).once('value').then(function (snapshot) {
                 if (snapshot.exists()) {
                     if ((snapshot.val())["requestedBy"] == parsedEmailObject["requestedBy"]) {
                         admin.database().ref(ROOM_LEDGER_REFERENCE).remove()
-                        resolve("DONE")
+                        admin.database().ref(`${FIREBASE_COMPANY_REF}/booking/${snapshot.val()['roomNumber']}`)
+                            .child(that.generateDayEpoch(parsedEmailObject['referenceNumber']))
+                            .child(`time/${snapshot.val()['startHour']}`)
+                            .remove()
+
+                        resolve(snapshot.val()['participants'])
                     } else reject(ERRORS.UNAUTHORIZED)
                 }
                 else {
