@@ -68,7 +68,9 @@ mailListener.on("server:disconnected", () => log('GMail Client Disconencted'));
         log(validParticipants, false)
 
         //participants are valid proceed to booking
-        result["participants"] = Object.keys(validParticipants)
+        if (validParticipants)
+          result["participants"] = Object.keys(validParticipants)
+        else result["participants"] = []
         bookingWithParsedAction(userAction, result)
 
       }).catch(error => {
@@ -122,7 +124,7 @@ function bookingWithParsedAction(action, parsedResult) {
   if (action == USER_ACTIONS.CREATE) {
     new firebase().attemptBooking(parsedResult).then(res => {
       sendMessageToParticipants({
-        body: `Booking for room number <b>${parsedResult["roomNumber"]}</b> for <b>${parsedResult["startAt"].toUTCString()}</b> upto <b>${parsedResult["endAt"].toUTCString()}</b> is confirmed!. <br><br><br><b style="color:#EF5350; font-size:9px">In case you want to cancel the meeting send Cancel room booking with reference ID ${res}</b>`,
+        body: `Booking for room number <b>${parsedResult["roomNumber"]}</b> for <b>${new Date("" + parsedResult["startAt"])}</b> upto <b>${new Date("" + parsedResult["endAt"])}</b> is confirmed!. <br><br><br><b style="color:#EF5350; font-size:9px">In case you want to cancel the meeting send Cancel room booking with reference ID ${res}</b>`,
         participants: parsedResult["participants"],
         requestedBy: parsedResult["requestedBy"],
         subject: `Meeting Scheduled for ${parsedResult["startAt"].toUTCString()}`
@@ -142,18 +144,18 @@ function bookingWithParsedAction(action, parsedResult) {
   }
   else if (action == USER_ACTIONS.CANCEL) {
     log('\n\n---------ATTEMPTING CANCELLATION------------', true);
-    new firebase().cancelBooking(result).then(res => {
+    new firebase().cancelBooking(parsedResult).then(res => {
       sendMessageToParticipants({
-        body: `Your booking with reference number <b>${result['referenceNumber']}</b> has been cancelled`,
+        body: `Your booking with reference number <b>${parsedResult['referenceNumber']}</b> has been cancelled`,
         participants: res,
-        requestedBy: result["requestedBy"],
+        requestedBy: parsedResult["requestedBy"],
         subject: `Booking Cancelled`
       })
     }).catch(error => {
       sendMessageToParticipants({
         body: `Sorry the there was some trouble cancelling your booking due to ${error}`,
-        participants: result["requestedBy"],
-        requestedBy: result["requestedBy"],
+        participants: parsedResult["requestedBy"],
+        requestedBy: parsedResult["requestedBy"],
         subject: `An error occured while`
       })
     })

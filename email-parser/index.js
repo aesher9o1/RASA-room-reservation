@@ -56,6 +56,7 @@ export default class EmailParser {
                         resolve({
                             userAction: userAction["OPERATION"],
                             referenceNumber: referenceNumber,
+                            participants: [...cc, from],
                             requestedBy: from
                         })
                     } else reject(ERRORS.INVALID_REFERENCE_NUMBER)
