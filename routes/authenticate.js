@@ -1,9 +1,19 @@
 'use strict'
 import router from 'express'
 import firbase from 'firebase'
-import { FIREBASE_CONFIG, COMPANY_REF } from '../environment/secrets'
 
-const app = firbase.initializeApp(process.env.FIREBASE_CONFIG ? process.env.FIREBASE_CONFIG : FIREBASE_CONFIG)
+const COMPANY_REF = "bcone"
+const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyC_giIAvBlRorTW5uRyj6gxuw2U6p0Qr5A",
+    authDomain: "placement-portalmuj.firebaseapp.com",
+    databaseURL: "https://placement-portalmuj.firebaseio.com",
+    projectId: "placement-portalmuj",
+    storageBucket: "placement-portalmuj.appspot.com",
+    messagingSenderId: "166993932389",
+    appId: "1:166993932389:web:71c6e303d4ee963195568c"
+}
+
+const app = firbase.initializeApp(FIREBASE_CONFIG)
 let route = router()
 
 route.post('/', async (req, res) => {

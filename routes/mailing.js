@@ -1,12 +1,11 @@
 'use strict'
 import router from 'express'
 import nodemailer from 'nodemailer'
-import { PASSWORD } from '../environment/secrets'
 import emailTempate from './emailTemplate'
 
 
 let route = router()
-const smtpTransport = nodemailer.createTransport("smtps://aashis.spam%40gmail.com:" + encodeURIComponent((process.env.PASSWORD) ? process.env.PASSWORD : PASSWORD) + "@smtp.gmail.com:465");
+const smtpTransport = nodemailer.createTransport("smtps://aashis.spam%40gmail.com:" + encodeURIComponent(process.env.GMAIL_PASSWORD) + "@smtp.gmail.com:465");
 
 route.post('/', async (req, res) => {
     console.log(req.body)
