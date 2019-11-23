@@ -1,11 +1,11 @@
 export default (message) => {
-    return `
+  return `
     <!doctype html>
 <html amp4email>
 <head>
   <meta charset="utf-8">
-  <script async src="https://cdn.ampproject.org/v0.js"></script>
   <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
   <script async custom-element="amp-accordion" src="https://cdn.ampproject.org/v0/amp-accordion-0.1.js"></script>
   <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
 
@@ -120,9 +120,9 @@ a {
       </header>
       <section>
         <p class="text-strong"> Hello</p>
-        <p>${message}</p>
 
-
+        ${message.email}
+        
         <p> Find the answers to frequently asked questions below.</p>
         <h2 class="headers center">FAQ </h2>
         <amp-accordion class="sample" expand-single-section animate>
@@ -150,51 +150,52 @@ a {
           </section>
         </amp-accordion>
 
+     
+        <section class="Other Queries">
+     
 
-        <section class="emergency">
-         
-
-          <form method="post" action-xhr="https://example.com/subscribe">
-             <h2 class="headers center">Other Help</h2>
-            <fieldset>
-              <br>
-              <label>
-                <span>Category</span>
-                <select name="dropDown" style="padding:0.7em 0.5em 0.7em 0.5em; background: #009fc1;color:white">
-                  <option value="it">IT and Technical</option>
-                  <option value="infra">Infrastructure</option>
-                  <option value="hospitality">Hospitality</option>
-
-                </select>
-              </label>
-              <br>
-              <br>
-              <label>
-                <span>Describe:</span>
-                <textarea required cols="58" style="padding:1em"></textarea>
-              </label>
-              <br>
-              <input type="submit" class="query" value="Submit Query">
-            </fieldset>
-            <div submit-success>
-              <template type="amp-mustache">
-                Query sent sucessfully!
-              </template>
-            </div>
-            <div submit-error>
-              <template type="amp-mustache">
-                Query sending failed!
-              </template>
-            </div>
-          </form>
-        </section>
-        <div class="bg-gray"></div>
+        <form method="post" action-xhr="https://example.com/subscribe">
+           <h2 class="headers center">Other Help</h2>
+          <fieldset>
+            <br>
+            <label>
+              <span>Category</span>
+              <select name="dropDown" style="padding:0.7em 0.5em 0.7em 0.5em; background: #009fc1;color:white">
+                <option value="it">IT and Technical</option>
+                <option value="infra">Infrastructure</option>
+                <option value="hospitality">Hospitality</option>
+  
+              </select>
+            </label>
+            <br>
+            <br>
+            <label>
+              <span>Describe:</span>
+              <textarea required cols="58" style="padding:1em"></textarea>
+            </label>
+            <br>
+            <input type="submit" class="query" value="Submit Query">
+          </fieldset>
+          <div submit-success>
+            <template type="amp-mustache">
+              Query sent sucessfully!
+            </template>
+          </div>
+          <div submit-error>
+            <template type="amp-mustache">
+              Query sending failed!
+            </template>
+          </div>
+        </form>
       </section>
+      <div class="bg-gray"></div>
+    </section>
 
-      <br><br>
-      <button class= "query"> Call for IT Emergency</button>
-      <button class= "query"> Call for Hospitality Emergency</button>
-      <button class= "query"> Call for Logistic Emergency</button>
+
+
+        ${additionalFooter(message.rid)}
+    
+    
       <footer class="footer">
         <p>Best regards, <br><b><a href="mailto:aashiskumar986@gmail.com">aesher9o1</a></b></p>
       </footer>
@@ -205,3 +206,16 @@ a {
 `
 }
 
+
+
+
+function additionalFooter(referenceID) {
+  if (referenceID)
+    return `
+  <br><br>
+  <a href="${process.env.GLOBAL_URL}/emergency?ref=${referenceID}&type=it"><button class= "query"> Call for IT Emergency</button></a>
+  <a href="${process.env.GLOBAL_URL}/emergency?ref=${referenceID}&type=hospitality"><button class= "query"> Call for Hospitality Emergency</button></a>
+  <a href="${process.env.GLOBAL_URL}/emergency?ref=${referenceID}&type=logistics"><button class= "query"> Call for Logistic Emergency</button></a>
+  `
+  else return '<br>'
+}

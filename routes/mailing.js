@@ -2,14 +2,15 @@
 import router from 'express'
 import nodemailer from 'nodemailer'
 import emailTempate from './emailTemplate'
+import { GMAIL_CRED } from '../environment'
 
 
 let route = router()
-const smtpTransport = nodemailer.createTransport("smtps://aashis.spam%40gmail.com:" + encodeURIComponent(process.env.GMAIL_PASSWORD) + "@smtp.gmail.com:465");
+const smtpTransport = nodemailer.createTransport("smtps://aashis.spam%40gmail.com:" + encodeURIComponent(GMAIL_CRED.password) + "@smtp.gmail.com:465");
 
 route.post('/', async (req, res) => {
     console.log(req.body)
-    console.log(`Try Login with ${process.env.GMAIL_PASSWORD}`)
+
     var mailOptions = {
         from: "9o1Mailer <aashis.spam@gmail.com>",
         to: req.body.requestedBy,

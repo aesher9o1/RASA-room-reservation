@@ -5,6 +5,7 @@ import cors from 'cors'
 
 const authenticateRoute = require('./routes/authenticate')
 const mailingRoute = require('./routes/mailing')
+const emergencyRoute = require('./routes/emergency')
 
 const app = express()
 
@@ -20,6 +21,7 @@ app.get('/', async (req, res) =>
 
 app.use('/auth', authenticateRoute)
 app.use('/mail', mailingRoute)
+app.use('/emergency', emergencyRoute)
 
 app.listen(process.env.PORT || 2000, (err) => {
     if (err)
