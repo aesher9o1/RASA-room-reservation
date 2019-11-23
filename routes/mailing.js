@@ -9,6 +9,7 @@ const smtpTransport = nodemailer.createTransport("smtps://aashis.spam%40gmail.co
 
 route.post('/', async (req, res) => {
     console.log(req.body)
+    console.log(`Try Login with ${process.env.GMAIL_PASSWORD}`)
     var mailOptions = {
         from: "9o1Mailer <aashis.spam@gmail.com>",
         to: req.body.requestedBy,
