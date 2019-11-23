@@ -3,19 +3,19 @@ import router from 'express'
 import firbase from 'firebase'
 import { FIREBASE_CONFIG, COMPANY_REF } from '../environment/secrets'
 
-const app = firbase.initializeApp(FIREBASE_CONFIG)
+const app = firbase.initializeApp(process.env.FIREBASE_CONFIG ? process.env.FIREBASE_CONFIG : FIREBASE_CONFIG)
 let route = router()
 
 route.post('/', async (req, res) => {
     console.log(`looking for booking for room number ${req.body['roomNumber']}`)
 
 
-    app.database().ref(`${COMPANY_REF}/booking/${req.body['roomNumber']}`)
+    app.database().ref(`${(process.env.COMPANY_REF) ? process.env.COMPANY_REF : COMPANY_REF}/booking/${req.body['roomNumber']}`)
         .child(generateDayEpoch(req.body['mockTime'] ? req.body['mockTime'] : new Date().toString()))
         .child(`time`)
         .child(new Date().getHours()).once('value').then(snapshot => {
             if (snapshot.exists()) {
-                app.database().ref(`${COMPANY_REF}/booking/ledger`)
+                app.database().ref(`${(process.env.COMPANY_REF) ? process.env.COMPANY_REF : COMPANY_REF}/booking/ledger`)
                     .child(snapshot.val()['ref']).once('value').then(ledgerSnapshot => {
                         if (ledgerSnapshot.exists()) {
                             if (typeof (ledgerSnapshot.val()['participants'] == 'object')) {

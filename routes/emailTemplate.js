@@ -1,238 +1,207 @@
 export default (message) => {
     return `
-    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <!doctype html>
+<html amp4email>
+<head>
+  <meta charset="utf-8">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+  <script async custom-element="amp-accordion" src="https://cdn.ampproject.org/v0/amp-accordion-0.1.js"></script>
+  <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
 
-    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
-    <head>
-    <!--[if gte mso 9]><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]-->
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-    <meta content="width=device-width" name="viewport"/>
-    <!--[if !mso]><!-->
-    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-    <!--<![endif]-->
-    <title></title>
-    <!--[if !mso]><!-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css"/>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css"/>
-    <!--<![endif]-->
-    <style type="text/css">
-            body {
-                margin: 0;
-                padding: 0;
-            }
-    
-            table,
-            td,
-            tr {
-                vertical-align: top;
-                border-collapse: collapse;
-            }
-    
-            * {
-                line-height: inherit;
-            }
-    
-            a[x-apple-data-detectors=true] {
-                color: inherit !important;
-                text-decoration: none !important;
-            }
-        </style>
-    <style id="media-query" type="text/css">
-            @media (max-width: 520px) {
-    
-                .block-grid,
-                .col {
-                    min-width: 320px !important;
-                    max-width: 100% !important;
-                    display: block !important;
-                }
-    
-                .block-grid {
-                    width: 100% !important;
-                }
-    
-                .col {
-                    width: 100% !important;
-                }
-    
-                .col>div {
-                    margin: 0 auto;
-                }
-    
-                img.fullwidth,
-                img.fullwidthOnMobile {
-                    max-width: 100% !important;
-                }
-    
-                .no-stack .col {
-                    min-width: 0 !important;
-                    display: table-cell !important;
-                }
-    
-                .no-stack.two-up .col {
-                    width: 50% !important;
-                }
-    
-                .no-stack .col.num4 {
-                    width: 33% !important;
-                }
-    
-                .no-stack .col.num8 {
-                    width: 66% !important;
-                }
-    
-                .no-stack .col.num4 {
-                    width: 33% !important;
-                }
-    
-                .no-stack .col.num3 {
-                    width: 25% !important;
-                }
-    
-                .no-stack .col.num6 {
-                    width: 50% !important;
-                }
-    
-                .no-stack .col.num9 {
-                    width: 75% !important;
-                }
-    
-                .video-block {
-                    max-width: none !important;
-                }
-    
-                .mobile_hide {
-                    min-height: 0px;
-                    max-height: 0px;
-                    max-width: 0px;
-                    display: none;
-                    overflow: hidden;
-                    font-size: 0px;
-                }
-    
-                .desktop_hide {
-                    display: block !important;
-                    max-height: none !important;
-                }
-            }
-        </style>
-    </head>
-    <body class="clean-body" style="margin: 0; padding: 0; -webkit-text-size-adjust: 100%; background-color: #FFFFFF;">
-    <!--[if IE]><div class="ie-browser"><![endif]-->
-    <table bgcolor="#FFFFFF" cellpadding="0" cellspacing="0" class="nl-container" role="presentation" style="table-layout: fixed; vertical-align: top; min-width: 320px; Margin: 0 auto; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #FFFFFF; width: 100%;" valign="top" width="100%">
-    <tbody>
-    <tr style="vertical-align: top;" valign="top">
-    <td style="word-break: break-word; vertical-align: top;" valign="top">
-    <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color:#FFFFFF"><![endif]-->
-    <div style="background-color:transparent;">
-    <div class="block-grid" style="Margin: 0 auto; min-width: 320px; max-width: 500px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: transparent;">
-    <div style="border-collapse: collapse;display: table;width: 100%;background-color:transparent;">
-    <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:transparent;"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px"><tr class="layout-full-width" style="background-color:transparent"><![endif]-->
-    <!--[if (mso)|(IE)]><td align="center" width="500" style="background-color:transparent;width:500px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top:5px; padding-bottom:5px;"><![endif]-->
-    <div class="col num12" style="min-width: 320px; max-width: 500px; display: table-cell; vertical-align: top; width: 500px;">
-    <div style="width:100% !important;">
-    <!--[if (!mso)&(!IE)]><!-->
-    <div style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:5px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;">
-    <!--<![endif]-->
-    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-family: 'Trebuchet MS', Tahoma, sans-serif"><![endif]-->
-    <div style="color:#555555;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
-    <div style="font-family: 'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; font-size: 12px; line-height: 1.2; color: #555555; mso-line-height-alt: 14px;">
-    <p style="font-size: 22px; line-height: 1.2; text-align: center; mso-line-height-alt: 26px; margin: 0;"><span style="font-size: 22px;"><strong>RASA Room Reservation Mailer</strong></span></p>
+  <style amp4email-boilerplate>
+    body {
+ 		visibility: hidden
+ 	}
+ 	</style>
+
+  <style amp-custom>
+ body {
+ background-color: #ffffff;
+ font-size: 18px;
+ color: #333333;
+ font-family: 'Segoe UI', Segoe, 'Open Sans', sans-serif;
+ width: 100%;
+ height: 100%;
+ Margin: 0;
+ padding: 0
+ }
+.main-body {
+ max-width: 600px;
+ margin: 0 auto;
+ }
+.main {
+ padding: 0 30px;
+ }
+.header {
+ padding: 30px 0 25px 0;
+ border-bottom: solid 1px #D6E3E3;
+ margin-bottom: 40px;
+ }
+.header .logo {
+ display: block;
+ margin: 0;
+ padding: 0;
+ border: 0 none;
+ }
+.logo, .headers {
+ font-size: 22px;
+ line-height: 40px;
+ margin: 0 0 10px;
+ color: #666a6c;
+ font-family: "Segoe UI", Segoe, "Open Sans", sans-serif;
+ text-transform: uppercase;
+ display: block;
+ padding: 30px 0;
+ font-weight: lighter;
+ }
+p {
+ font-family: 'Segoe UI', Segoe, 'Open Sans', sans-serif;
+ font-weight: normal;
+ font-size: 16px;
+ line-height: 24px;
+ color: #333333;
+ padding: 0;
+ margin: 0 0 10px 0;
+ }
+.text-strong {
+ font-weight: bold;
+ }
+
+a {
+ color: #009fc1;
+ text-decoration: underline;
+ }
+.accordion-header {
+ padding: 20px;
+ color: #333;
+ font-size: 18px;
+ font-weight: normal;
+ background-color: #fafafa;
+ border: 1px solid #ddd;
+ }
+.accordion-info {
+ padding: 20px;
+ border: 1px solid #ccc;
+ text-align: left;
+ color: #666;
+ line-height: 1.4em;
+ font-size: 15px;
+ }
+.center {
+ text-align: center;
+ padding-bottom: 20px
+ }
+.footer {
+ padding: 30px 0 25px 0;
+ border-top: solid 1px #D6E3E3;
+ margin-top: 40px;
+ }
+.location {
+ border: 1px solid #ddd;
+ }
+.space {
+ margin-bottom: 30px;
+ }
+    .query{
+      margin-top:1em;
+      padding:0.7em 0.5em 0.7em 0.5em;
+      border:none;
+      background: #009fc1;
+      color:white
+    }
+ </style>
+</head>
+<body>
+  <div class="main-body">
+    <div class="main">
+      <header class="center header">
+        <div class="logo"><span>RASA ROOM MAILER</span></div>
+      </header>
+      <section>
+        <p class="text-strong"> Hello</p>
+        <p>${message}</p>
+
+
+        <p> Find the answers to frequently asked questions below.</p>
+        <h2 class="headers center">FAQ </h2>
+        <amp-accordion class="sample" expand-single-section animate>
+          <section>
+            <h4 class="accordion-header">Projector Problem</h4>
+            <p class="accordion-info">Please disconnect and connect again. Or maybe there is no electricity. If none of them work try contacting us to get the equippment changed.
+            </p>
+          </section>
+          <section>
+            <h4 class="accordion-header">Door Jammed</h4>
+            <p class="accordion-info">Please disconnect and connect again. Or maybe there is no electricity. If none of them work try contacting us to get the equippment changed.
+            </p>
+          </section>
+          <section>
+            <h4 class="accordion-header">AC problem</h4>
+            <p class="accordion-info">Please disconnect and connect again. Or maybe there is no electricity. If none of them work try contacting us to get the equippment changed.</p>
+          </section>
+          <section>
+            <h4 class="accordion-header">Contact details</h4>
+            <p class="accordion-info">ADDRESS:<br>
+              365 Westminster Bridge Road<br>
+              London SE1 7UT, United Kingdom<br>
+              RESERVATIONS:<br>
+              +11 (0) 000 000 0000 (RASA Room Direct)<br></p>
+          </section>
+        </amp-accordion>
+
+
+        <section class="emergency">
+         
+
+          <form method="post" action-xhr="https://example.com/subscribe">
+             <h2 class="headers center">Other Help</h2>
+            <fieldset>
+              <br>
+              <label>
+                <span>Category</span>
+                <select name="dropDown" style="padding:0.7em 0.5em 0.7em 0.5em; background: #009fc1;color:white">
+                  <option value="it">IT and Technical</option>
+                  <option value="infra">Infrastructure</option>
+                  <option value="hospitality">Hospitality</option>
+
+                </select>
+              </label>
+              <br>
+              <br>
+              <label>
+                <span>Describe:</span>
+                <textarea required cols="58" style="padding:1em"></textarea>
+              </label>
+              <br>
+              <input type="submit" class="query" value="Submit Query">
+            </fieldset>
+            <div submit-success>
+              <template type="amp-mustache">
+                Query sent sucessfully!
+              </template>
+            </div>
+            <div submit-error>
+              <template type="amp-mustache">
+                Query sending failed!
+              </template>
+            </div>
+          </form>
+        </section>
+        <div class="bg-gray"></div>
+      </section>
+
+      <br><br>
+      <button class= "query"> Call for IT Emergency</button>
+      <button class= "query"> Call for Hospitality Emergency</button>
+      <button class= "query"> Call for Logistic Emergency</button>
+      <footer class="footer">
+        <p>Best regards, <br><b><a href="mailto:aashiskumar986@gmail.com">aesher9o1</a></b></p>
+      </footer>
     </div>
-    </div>
-    <!--[if mso]></td></tr></table><![endif]-->
-    <table border="0" cellpadding="0" cellspacing="0" class="divider" role="presentation" style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;" valign="top" width="100%">
-    <tbody>
-    <tr style="vertical-align: top;" valign="top">
-    <td class="divider_inner" style="word-break: break-word; vertical-align: top; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;" valign="top">
-    <table align="center" border="0" cellpadding="0" cellspacing="0" class="divider_content" role="presentation" style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-top: 1px solid #BBBBBB; width: 100%;" valign="top" width="100%">
-    <tbody>
-    <tr style="vertical-align: top;" valign="top">
-    <td style="word-break: break-word; vertical-align: top; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;" valign="top"><span></span></td>
-    </tr>
-    </tbody>
-    </table>
-    </td>
-    </tr>
-    </tbody>
-    </table>
-    <!--[if (!mso)&(!IE)]><!-->
-    </div>
-    <!--<![endif]-->
-    </div>
-    </div>
-    <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
-    <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
-    </div>
-    </div>
-    </div>
-    <div style="background-color:transparent;">
-    <div class="block-grid" style="Margin: 0 auto; min-width: 320px; max-width: 500px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: transparent;">
-    <div style="border-collapse: collapse;display: table;width: 100%;background-color:transparent;">
-    <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:transparent;"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px"><tr class="layout-full-width" style="background-color:transparent"><![endif]-->
-    <!--[if (mso)|(IE)]><td align="center" width="500" style="background-color:transparent;width:500px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top:5px; padding-bottom:5px;"><![endif]-->
-    <div class="col num12" style="min-width: 320px; max-width: 500px; display: table-cell; vertical-align: top; width: 500px;">
-    <div style="width:100% !important;">
-    <!--[if (!mso)&(!IE)]><!-->
-    <div style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:5px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;">
-    <!--<![endif]-->
-    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-family: Arial, sans-serif"><![endif]-->
-    <div style="color:#555555;font-family:'Open Sans', Helvetica, Arial, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
-    <div style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-size: 12px; line-height: 1.2; color: #555555; mso-line-height-alt: 14px;">
-    <p style="font-size: 18px; line-height: 1.2; mso-line-height-alt: 22px; margin: 0;"><span style="font-size: 14px;">${message}</span></p>
-    </div>
-    </div>
-    <!--[if mso]></td></tr></table><![endif]-->
-    <!--[if (!mso)&(!IE)]><!-->
-    </div>
-    <!--<![endif]-->
-    </div>
-    </div>
-    <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
-    <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
-    </div>
-    </div>
-    </div>
-    <div style="background-color:#F8F8F8;">
-    <div class="block-grid" style="Margin: 0 auto; min-width: 320px; max-width: 500px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: transparent;">
-    <div style="border-collapse: collapse;display: table;width: 100%;background-color:transparent;">
-    <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#F8F8F8;"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px"><tr class="layout-full-width" style="background-color:transparent"><![endif]-->
-    <!--[if (mso)|(IE)]><td align="center" width="500" style="background-color:transparent;width:500px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top:5px; padding-bottom:5px;"><![endif]-->
-    <div class="col num12" style="min-width: 320px; max-width: 500px; display: table-cell; vertical-align: top; width: 500px;">
-    <div style="width:100% !important;">
-    <!--[if (!mso)&(!IE)]><!-->
-    <div style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:5px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;">
-    <!--<![endif]-->
-    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-family: Arial, sans-serif"><![endif]-->
-    <div style="color:#555555;font-family:'Open Sans', Helvetica, Arial, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
-    <div style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-size: 12px; line-height: 1.2; color: #555555; mso-line-height-alt: 14px;">
-    <p style="font-size: 9px; line-height: 1.2; mso-line-height-alt: 11px; margin: 0;"><span style="font-size: 9px;">If you think this was a mistake kindly follow the below guidelines for effective detection kindly ignore if booked from portal:</span></p>
-    <ul>
-    <li style="font-size: 9px; line-height: 1.2; mso-line-height-alt: 11px;"><span style="font-size: 9px;">Write subject in this format &lt;verb&gt; &lt;room number&gt; eg Book Room Number 1 or Help required at Room Number 1</span></li>
-    <li style="font-size: 9px; line-height: 1.2; mso-line-height-alt: 11px;"><span style="font-size: 9px;">Mention the duration of booking or cancellation Ref ID clearly in the booking</span></li>
-    <li style="font-size: 9px; line-height: 1.2; mso-line-height-alt: 11px;"><span style="font-size: 9px;">For assistance write down the probelm you are facing to help us find you</span></li>
-    </ul>
-    </div>
-    </div>
-    <!--[if mso]></td></tr></table><![endif]-->
-    <!--[if (!mso)&(!IE)]><!-->
-    </div>
-    <!--<![endif]-->
-    </div>
-    </div>
-    <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
-    <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
-    </div>
-    </div>
-    </div>
-    <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
-    </td>
-    </tr>
-    </tbody>
-    </table>
-    <!--[if (IE)]></div><![endif]-->
-    </body>
-    </html>
+  </div>
+</body>
+</html>
 `
 }
 
