@@ -31,7 +31,10 @@ new EmailParser().onEmailReceived(EMAIL_MOCK).then(res => {
     if (userAction == USER_ACTIONS.CREATE) {
         new firebase().attemptBooking(result).then(res => {
             sendMessageToParticipants({
-                body: `Booking for room number <b>${result["roomNumber"]}</b> for <b>${result["startAt"].toUTCString()}</b> upto <b>${result["endAt"].toUTCString()}</b> is confirmed!. <br><br><br><b style="color:#EF5350; font-size:9px">In case you want to cancel the meeting send Cancel room booking with reference ID ${res}</b>`,
+                body: {
+                    email: `Booking for room number <b>${result["roomNumber"]}</b> for <b>${result["startAt"].toUTCString()}</b> upto <b>${result["endAt"].toUTCString()}</b> is confirmed!. <br><br><br><b style="color:#EF5350; font-size:9px">In case you want to cancel the meeting send Cancel room booking with reference ID ${res}</b>`,
+                    rid: res
+                },
                 participants: result["participants"],
                 requestedBy: result["requestedBy"],
                 subject: `Meeting Scheduled for ${result["startAt"].toUTCString()}`,
@@ -41,7 +44,10 @@ new EmailParser().onEmailReceived(EMAIL_MOCK).then(res => {
         }).catch(err => {
             console.log(err)
             sendMessageToParticipants({
-                body: `Sorry the booking could not be done due to <b>${err}</b>`,
+                body: {
+                    email: `Sorry the booking could not be done due to <b>${err}</b>`,
+                    rid: null
+                },
                 participants: result["requestedBy"],
                 requestedBy: result["requestedBy"],
                 subject: `An error occured while booking room number ${result["roomNumber"]}`
@@ -52,14 +58,20 @@ new EmailParser().onEmailReceived(EMAIL_MOCK).then(res => {
     else if (userAction == USER_ACTIONS.CANCEL) {
         new firebase().cancelBooking(result).then(res => {
             sendMessageToParticipants({
-                body: `Your booking with reference number <b>${result['referenceNumber']}</b> has been cancelled`,
+                body: {
+                    email: `Your booking with reference number <b>${result['referenceNumber']}</b> has been cancelled`,
+                    rid: null
+                },
                 participants: res,
                 requestedBy: result["requestedBy"],
                 subject: `Booking Cancelled`
             })
         }).catch(error => {
             sendMessageToParticipants({
-                body: `Sorry the there was some trouble cancelling your booking due to ${error}`,
+                body: {
+                    email: `Sorry the there was some trouble cancelling your booking due to ${error}`,
+                    rid: null
+                },
                 participants: result["requestedBy"],
                 requestedBy: result["requestedBy"],
                 subject: `An error occured while`

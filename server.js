@@ -79,7 +79,10 @@ mailListener.on("server:disconnected", () => log('GMail Client Disconencted'));
         log("\n\n---------UNAUTHORIZED PARTICIPANTS------------", true)
         log(invalidParticipants, false)
         sendMessageToParticipants({
-          body: ` <b>${invalidParticipants.join()}</b> are not authorized by the company to participate in the meeting.`,
+          body: {
+            email: ` <b>${invalidParticipants.join()}</b> are not authorized by the company to participate in the meeting.`,
+            rid: null
+          },
           participants: result["requestedBy"],
           requestedBy: result["requestedBy"],
           subject: `An error occured while booking room number ${result["roomNumber"]}`
@@ -91,7 +94,10 @@ mailListener.on("server:disconnected", () => log('GMail Client Disconencted'));
       log("\n\n---------ERROR BOOKING------------", true)
       log(err, false)
       sendMessageToParticipants({
-        body: `Sorry the booking could not be done due to <b>${err}</b>`,
+        body: {
+          email: `Sorry the booking could not be done due to <b>${err}</b>`,
+          rid: null
+        },
         participants: result["requestedBy"],
         requestedBy: result["requestedBy"],
         subject: `An error occured while booking room number ${result["roomNumber"]}`
@@ -124,7 +130,10 @@ function bookingWithParsedAction(action, parsedResult) {
   if (action == USER_ACTIONS.CREATE) {
     new firebase().attemptBooking(parsedResult).then(res => {
       sendMessageToParticipants({
-        body: `Booking for room number <b>${parsedResult["roomNumber"]}</b> for <b>${new Date("" + parsedResult["startAt"])}</b> upto <b>${new Date("" + parsedResult["endAt"])}</b> is confirmed!. <br><br><br><b style="color:#EF5350; font-size:9px">In case you want to cancel the meeting send Cancel room booking with reference ID ${res}</b>`,
+        body: {
+          email: `Booking for room number <b>${parsedResult["roomNumber"]}</b> for <b>${new Date("" + parsedResult["startAt"])}</b> upto <b>${new Date("" + parsedResult["endAt"])}</b> is confirmed!. <br><br><br><b style="color:#EF5350; font-size:9px">In case you want to cancel the meeting send Cancel room booking with reference ID ${res}</b>`,
+          rid: parsedResult["roomNumber"]
+        },
         participants: parsedResult["participants"],
         requestedBy: parsedResult["requestedBy"],
         subject: `Meeting Scheduled for ${parsedResult["startAt"].toUTCString()}`
@@ -134,7 +143,10 @@ function bookingWithParsedAction(action, parsedResult) {
     }).catch(err => {
       log(err, false)
       sendMessageToParticipants({
-        body: `Sorry the booking could not be done due to <b>${err}</b>`,
+        body: {
+          email: `Sorry the booking could not be done due to <b>${err}</b>`,
+          rid: null
+        },
         participants: parsedResult["requestedBy"],
         requestedBy: parsedResult["requestedBy"],
         subject: `An error occured while booking room number ${parsedResult["roomNumber"]}`
@@ -146,14 +158,20 @@ function bookingWithParsedAction(action, parsedResult) {
     log('\n\n---------ATTEMPTING CANCELLATION------------', true);
     new firebase().cancelBooking(parsedResult).then(res => {
       sendMessageToParticipants({
-        body: `Your booking with reference number <b>${parsedResult['referenceNumber']}</b> has been cancelled`,
+        body: {
+          email: `Your booking with reference number <b>${parsedResult['referenceNumber']}</b> has been cancelled`,
+          rid: null
+        },
         participants: res,
         requestedBy: parsedResult["requestedBy"],
         subject: `Booking Cancelled`
       })
     }).catch(error => {
       sendMessageToParticipants({
-        body: `Sorry the there was some trouble cancelling your booking due to ${error}`,
+        body: {
+          email: `Sorry the there was some trouble cancelling your booking due to ${error}`,
+          rid: null
+        },
         participants: parsedResult["requestedBy"],
         requestedBy: parsedResult["requestedBy"],
         subject: `An error occured while`

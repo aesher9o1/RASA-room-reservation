@@ -55,8 +55,8 @@ const BODY_TEST_RESULTS = [
 
 
 const EMAIL_MOCK = {
-    subject: "Cancellation of room 1",
-    text: "Please cancel reference number 1573888981911",
+    subject: "Booking of room 1",
+    text: "Please book room for tomorrow 10AM to 11AM",
     cc:
         [{ address: 'aashis.169109002@muj.manipal.edu', name: '' }],
     from:
