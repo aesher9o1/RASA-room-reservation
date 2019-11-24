@@ -210,6 +210,7 @@ a {
 
 
 function additionalFooter(referenceID) {
+  console.log(`Global URL: ${process.env.GLOBAL_URL}\n\n\n`)
   if (referenceID)
     return `
   <br><br>

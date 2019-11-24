@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 
 app.get('/', async (req, res) =>
-    res.send(`server working at ${process.env.GMAIL_PASSWORD}`)
+    res.send(`server working at ${process.env.PORT || 2000}`)
 )
 
 

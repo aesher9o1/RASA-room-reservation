@@ -9,6 +9,7 @@ let route = router()
 const smtpTransport = nodemailer.createTransport("smtps://aashis.spam%40gmail.com:" + encodeURIComponent(GMAIL_CRED.password) + "@smtp.gmail.com:465");
 
 route.post('/', async (req, res) => {
+    console.log("---EMAIL RECEIVED---")
     console.log(req.body)
 
     var mailOptions = {
